@@ -56,15 +56,15 @@ __inline__ __device__ void blakeRound(uint64_t *v_clmn[], uint64_t ext_1, uint64
 }
 
 __inline__ __device__ void matrixDiag(uint64_t matrix[4][4], short fixed_clmn) {
-  matrix[1][fixed_clmn] = __shfl(matrix[1][fixed_clmn], fixed_clmn + 1, 4);
-  matrix[2][fixed_clmn] = __shfl(matrix[2][fixed_clmn], fixed_clmn + 2, 4);
-  matrix[3][fixed_clmn] = __shfl(matrix[3][fixed_clmn], fixed_clmn + 3, 4);
+  matrix[1][fixed_clmn] = __shfl_sync(0xFFFFFFFF, matrix[1][fixed_clmn], fixed_clmn + 1, 4);
+  matrix[2][fixed_clmn] = __shfl_sync(0xFFFFFFFF, matrix[2][fixed_clmn], fixed_clmn + 2, 4);
+  matrix[3][fixed_clmn] = __shfl_sync(0xFFFFFFFF, matrix[3][fixed_clmn], fixed_clmn + 3, 4);
 }
 
 __inline__ __device__ void matrixUnDiag(uint64_t matrix[4][4], short fixed_clmn) {
-  matrix[1][fixed_clmn] = __shfl(matrix[1][fixed_clmn], fixed_clmn - 1, 4);
-  matrix[2][fixed_clmn] = __shfl(matrix[2][fixed_clmn], fixed_clmn - 2, 4);
-  matrix[3][fixed_clmn] = __shfl(matrix[3][fixed_clmn], fixed_clmn - 3, 4);
+  matrix[1][fixed_clmn] = __shfl_sync(0xFFFFFFFF, matrix[1][fixed_clmn], fixed_clmn - 1, 4);
+  matrix[2][fixed_clmn] = __shfl_sync(0xFFFFFFFF, matrix[2][fixed_clmn], fixed_clmn - 2, 4);
+  matrix[3][fixed_clmn] = __shfl_sync(0xFFFFFFFF, matrix[3][fixed_clmn], fixed_clmn - 3, 4);
 }
 
 __global__ void iter_compressor (const uint64_t *gmem_msg_block, size_t inlen, unsigned char *tgt, short stage_mark) {
